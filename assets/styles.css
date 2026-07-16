@@ -1,0 +1,550 @@
+/* ==========================================================
+   ANALYZEIT - PREMIUM DARK SAAS DESIGN SYSTEM v3
+   Linear · Vercel · Stripe · OpenAI Playground · GitHub Dark
+   CSS handles APPEARANCE ONLY — layout is handled by Streamlit.
+   ========================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+/* ----------------------------------------------------------
+   FOUNDATION — dark background on every Streamlit layer
+   ---------------------------------------------------------- */
+
+.stApp,
+.stApp > header,
+.main,
+section.main,
+[data-testid="stAppViewContainer"],
+[data-testid="stAppViewBlockContainer"],
+[data-testid="stBottom"] {
+  background-color: #0B1020 !important;
+}
+
+.block-container {
+  background: transparent !important;
+  padding: 28px 36px !important;
+  max-width: 1500px;
+}
+
+[data-testid="stHeader"],
+[data-testid="stToolbar"] {
+  background: #0B1020 !important;
+}
+
+/* ----------------------------------------------------------
+   GLOBAL TYPOGRAPHY
+   ---------------------------------------------------------- */
+
+.stApp,
+.stApp p,
+.stApp label,
+.stApp li,
+.stApp a,
+.stApp h1,
+.stApp h2,
+.stApp h3,
+.stApp h4,
+.stApp h5,
+.stApp h6,
+[data-testid="stMarkdownContainer"] p,
+[data-testid="stMarkdownContainer"] h1,
+[data-testid="stMarkdownContainer"] h2,
+[data-testid="stMarkdownContainer"] h3 {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+}
+
+/* Preserve Streamlit native icon fonts */
+[data-testid="stIcon"],
+.material-icons,
+[class*="material-icons"],
+[class*="material-symbols"] {
+  font-family: "Material Symbols Outlined", "Material Symbols Rounded", "Material Symbols Sharp", "Material Icons" !important;
+}
+
+.stApp p,
+.stApp .stMarkdown p,
+.stApp .stText,
+[data-testid="stMarkdownContainer"] p,
+[data-testid="stMarkdownContainer"] li,
+[data-testid="stMarkdownContainer"] span {
+  color: #94A3B8 !important;
+}
+
+/* ----------------------------------------------------------
+   TYPOGRAPHY POLISH
+   ---------------------------------------------------------- */
+
+.stApp h1,
+[data-testid="stMarkdownContainer"] h1 {
+  color: #F8FAFC !important;
+  font-size: 22px !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.5px !important;
+}
+
+.stApp h2,
+[data-testid="stMarkdownContainer"] h2 {
+  color: #F8FAFC !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.3px !important;
+  margin-top: 14px !important;
+  margin-bottom: 8px !important;
+}
+
+.stApp h3,
+[data-testid="stMarkdownContainer"] h3 {
+  color: #F8FAFC !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.2px !important;
+}
+
+.stApp h4,
+[data-testid="stMarkdownContainer"] h4 {
+  color: #CBD5E1 !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+.stApp .stTextInput label,
+.stApp .stTextArea label,
+.stApp .stSelectbox label,
+.stApp .stNumberInput label,
+.stApp .stSlider label,
+.stApp .stRadio label,
+.stApp .stCheckbox label,
+.stApp [data-testid="stWidgetLabel"],
+.stApp [data-testid="stWidgetLabel"] p {
+  color: #94A3B8 !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.3px !important;
+}
+
+/* ----------------------------------------------------------
+   SIDEBAR (left column used as sidebar)
+   ---------------------------------------------------------- */
+
+[data-testid="stSidebar"],
+[data-testid="stSidebar"] > div {
+  background: #111827 !important;
+  border-right: 1px solid rgba(255,255,255,0.08) !important;
+}
+
+[data-testid="stSidebar"] p,
+[data-testid="stSidebar"] span,
+[data-testid="stSidebar"] div,
+[data-testid="stSidebar"] label {
+  color: #94A3B8 !important;
+}
+
+[data-testid="stSidebar"] [data-testid="stSelectbox"] > div > div {
+  background: rgba(255,255,255,0.05) !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+  border-radius: 10px !important;
+  color: #F8FAFC !important;
+}
+
+[data-testid="stSidebar"] [data-testid="stWidgetLabel"] p {
+  color: #64748B !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.6px !important;
+}
+
+/* ----------------------------------------------------------
+   SCROLLBARS
+   ---------------------------------------------------------- */
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.14); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(79,140,255,0.5); }
+
+/* ----------------------------------------------------------
+   ANIMATIONS
+   ---------------------------------------------------------- */
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.35; }
+}
+@keyframes shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position: 600px 0; }
+}
+
+/* ----------------------------------------------------------
+   BUTTONS — appearance only
+   ---------------------------------------------------------- */
+
+.stButton > button {
+  width: 100%;
+  border-radius: 10px;
+  height: 40px;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* Secondary Button (Default) — Sleek dark outline */
+.stButton > button,
+.stButton > button[kind="secondary"] {
+  background: rgba(255, 255, 255, 0.04) !important;
+  color: #CBD5E1 !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: none !important;
+}
+
+.stButton > button:hover,
+.stButton > button[kind="secondary"]:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #F8FAFC !important;
+  border-color: rgba(79, 140, 255, 0.4) !important;
+  transform: translateY(-1px) !important;
+}
+
+.stButton > button:active,
+.stButton > button[kind="secondary"]:active {
+  transform: translateY(0) scale(0.98) !important;
+}
+
+/* Primary Button — Brand Blue Gradient */
+.stButton > button[kind="primary"] {
+  background: linear-gradient(135deg, #4F8CFF 0%, #2563EB 100%) !important;
+  color: #ffffff !important;
+  border: none !important;
+  box-shadow: 0 4px 14px rgba(79,140,255,0.3) !important;
+}
+
+.stButton > button[kind="primary"]:hover {
+  background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%) !important;
+  box-shadow: 0 6px 20px rgba(79,140,255,0.45) !important;
+  transform: translateY(-1px) !important;
+}
+
+.stButton > button[kind="primary"]:active {
+  transform: translateY(0) scale(0.98) !important;
+}
+
+/* Download button — green variant */
+.stDownloadButton > button {
+  background: linear-gradient(135deg, #22c55e, #16a34a) !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 10px !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 14px rgba(34,197,94,0.3) !important;
+  transition: all 0.2s ease !important;
+}
+.stDownloadButton > button:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 20px rgba(34,197,94,0.4) !important;
+}
+
+/* ----------------------------------------------------------
+   INPUT FIELDS — appearance only
+   ---------------------------------------------------------- */
+
+.stTextInput > div > div > input,
+.stTextArea > div > div > textarea,
+.stNumberInput > div > div > input {
+  background: rgba(255,255,255,0.05) !important;
+  border: 1px solid rgba(255,255,255,0.12) !important;
+  border-radius: 10px !important;
+  color: #F8FAFC !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 14px !important;
+}
+
+.stTextInput > div > div > input:focus,
+.stTextArea > div > div > textarea:focus {
+  border-color: #4F8CFF !important;
+  box-shadow: 0 0 0 3px rgba(79,140,255,0.2) !important;
+  outline: none !important;
+}
+
+.stTextInput > div > div > input::placeholder,
+.stTextArea > div > div > textarea::placeholder {
+  color: #64748B !important;
+}
+
+.stSelectbox > div > div {
+  background: rgba(255,255,255,0.05) !important;
+  border: 1px solid rgba(255,255,255,0.12) !important;
+  border-radius: 10px !important;
+  color: #F8FAFC !important;
+}
+
+.stSelectbox > div > div > div {
+  color: #F8FAFC !important;
+}
+
+/* ----------------------------------------------------------
+   DIVIDERS
+   ---------------------------------------------------------- */
+
+hr,
+[data-testid="stDivider"] {
+  border-color: rgba(255,255,255,0.08) !important;
+}
+
+/* ----------------------------------------------------------
+   EXPANDERS
+   ---------------------------------------------------------- */
+
+[data-testid="stExpander"] {
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  border-radius: 14px !important;
+  background: #161F2F !important;
+  overflow: hidden;
+}
+
+[data-testid="stExpander"] details {
+  background: #161F2F !important;
+}
+
+[data-testid="stExpander"] summary {
+  background: transparent !important;
+  color: #F8FAFC !important;
+  font-weight: 600 !important;
+  padding: 14px 18px !important;
+}
+
+[data-testid="stExpander"] summary:hover {
+  background: rgba(255,255,255,0.04) !important;
+}
+
+[data-testid="stExpander"] summary span,
+[data-testid="stExpander"] summary p {
+  color: #F8FAFC !important;
+}
+
+/* ----------------------------------------------------------
+   TABS
+   ---------------------------------------------------------- */
+
+.stTabs [data-testid="stTab"] {
+  background: transparent !important;
+  color: #94A3B8 !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+}
+
+.stTabs [data-testid="stTab"][aria-selected="true"] {
+  color: #4F8CFF !important;
+  border-bottom: 2px solid #4F8CFF !important;
+}
+
+.stTabs [data-testid="stTab"] p {
+  color: inherit !important;
+}
+
+.stTabs [data-testid="stTabPanel"] {
+  background: transparent !important;
+}
+
+/* ----------------------------------------------------------
+   NATIVE st.metric
+   ---------------------------------------------------------- */
+
+[data-testid="stMetricValue"]   { color: #4F8CFF !important; font-weight: 700 !important; font-size: 18px !important; }
+[data-testid="stMetricLabel"]   { color: #94A3B8 !important; font-size: 11px !important; font-weight: 600 !important; text-transform: uppercase !important; letter-spacing: 0.5px !important; }
+[data-testid="stMetricLabel"] p { color: #94A3B8 !important; }
+[data-testid="stMetricDelta"]   { color: #22C55E !important; font-size: 11px !important; }
+
+/* ----------------------------------------------------------
+   CONTAINERS (bordered)
+   ---------------------------------------------------------- */
+
+[data-testid="stVerticalBlockBorderWrapper"] {
+  border-color: rgba(255,255,255,0.1) !important;
+  border-radius: 16px !important;
+  background: #161F2F !important;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  animation: fadeInUp 0.4s ease;
+}
+
+[data-testid="stVerticalBlockBorderWrapper"]:hover {
+  border-color: rgba(79,140,255,0.3) !important;
+  box-shadow: 0 8px 32px rgba(79,140,255,0.15);
+}
+
+/* ----------------------------------------------------------
+   ALERTS (native st.info / st.warning / st.error / st.success)
+   ---------------------------------------------------------- */
+
+[data-testid="stAlert"] {
+  border-radius: 12px !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+}
+
+[data-testid="stAlert"] p,
+[data-testid="stAlert"] span {
+  color: #F8FAFC !important;
+}
+
+/* ----------------------------------------------------------
+   PLOTLY CHARTS
+   ---------------------------------------------------------- */
+
+[data-testid="stPlotlyChart"] {
+  background: #161F2F !important;
+  border-radius: 18px !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  padding: 8px !important;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.35) !important;
+}
+
+/* ----------------------------------------------------------
+   PROGRESS BARS
+   ---------------------------------------------------------- */
+
+[data-testid="stProgressBar"] > div > div {
+  background: linear-gradient(90deg, #4F8CFF, #7C5CFC) !important;
+  border-radius: 4px !important;
+}
+[data-testid="stProgressBar"] > div {
+  background: rgba(255,255,255,0.1) !important;
+  border-radius: 4px !important;
+}
+
+/* ----------------------------------------------------------
+   TABLES / DATAFRAMES
+   ---------------------------------------------------------- */
+
+[data-testid="stDataFrame"],
+[data-testid="stTable"] {
+  background: #161F2F !important;
+  border-radius: 14px !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  overflow: hidden;
+}
+
+/* ----------------------------------------------------------
+   SKILL BADGES — appearance only (used in candidate cards)
+   ---------------------------------------------------------- */
+
+.skill-badge {
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+}
+
+.skill-badge-matched {
+  background: rgba(34,197,94,0.15);
+  color: #4ade80 !important;
+  border: 1px solid rgba(34,197,94,0.3);
+}
+
+.skill-badge-missing {
+  background: rgba(239,68,68,0.12);
+  color: #f87171 !important;
+  border: 1px solid rgba(239,68,68,0.25);
+}
+
+/* ----------------------------------------------------------
+   RANK TAG — appearance only
+   ---------------------------------------------------------- */
+
+.rank-tag {
+  background: rgba(79,140,255,0.18);
+  color: #4F8CFF !important;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  border: 1px solid rgba(79,140,255,0.3);
+  margin-right: 6px;
+}
+
+/* ----------------------------------------------------------
+   CHAT (native st.chat_message — appearance tweaks only)
+   ---------------------------------------------------------- */
+
+[data-testid="stChatMessageContent"] p {
+  color: #F8FAFC !important;
+  font-size: 14px !important;
+}
+
+[data-testid="stChatMessage"] {
+  animation: fadeInUp 0.3s ease;
+}
+
+/* ----------------------------------------------------------
+   SPINNER
+   ---------------------------------------------------------- */
+
+.stSpinner > div { border-top-color: #4F8CFF !important; }
+
+/* ----------------------------------------------------------
+   MISC
+   ---------------------------------------------------------- */
+
+[data-testid="stHorizontalBlock"] { gap: 18px !important; }
+
+.stRadio > label,
+.stCheckbox > label {
+  color: #94A3B8 !important;
+  font-size: 13px !important;
+}
+
+/* ----------------------------------------------------------
+   SIDEBAR NAVIGATION LINKS
+   ---------------------------------------------------------- */
+
+.nav-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nav-link {
+  text-decoration: none !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 8px 12px !important;
+  color: #94A3B8 !important;
+  border-radius: 8px !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  border-left: 3px solid transparent !important;
+  transition: all 0.2s ease !important;
+}
+
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: #F8FAFC !important;
+}
+
+.nav-link.active {
+  background: rgba(79, 140, 255, 0.15) !important;
+  color: #93c5fd !important;
+  font-weight: 700 !important;
+  border-left: 3px solid #4F8CFF !important;
+}
+
+/* Collapse zero-height Streamlit custom HTML components */
+div[data-testid="stHtml"]:has(iframe[height="0"]) {
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+}
+
