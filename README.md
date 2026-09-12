@@ -84,7 +84,7 @@ Instead of keyword matching, AnalyzeIt understands the **meaning** behind resume
 
 ## Recruiter Dashboard
 
-> *(Replace with actual screenshot)*
+
 
 ![](screenshots/dashboard.png)
 
