@@ -302,8 +302,3 @@ It helps others discover the project and motivates future development.
 
 <div align="center">
 
-### Built with ❤️ using Python, Streamlit & Local LLMs
-
-**AnalyzeIt — Smarter Hiring with AI**
-
-</div>
