@@ -65,7 +65,11 @@ class ResumeRAG:
             seen_filenames.add(filename)
 
             try:
-                # 3. Parse PDF page by page
+                # 3. Rewind stream if seekable
+                if hasattr(uploaded_file, "seek"):
+                    uploaded_file.seek(0)
+
+                # Parse PDF page by page
                 reader = PdfReader(uploaded_file)
                 
                 # Check for encryption
@@ -89,18 +93,25 @@ class ResumeRAG:
                 
                 # Extract candidate profile using parser instance
                 profile = self.parser.extract(text)
-                self.candidate_profiles[filename] = profile
-
+                
                 # Extract candidate name safely
                 lines = [line.strip() for line in text.split("\n") if line.strip()]
-                candidate_name = lines[0] if lines else filename.replace(".pdf", "")
+                clean_filename_name = filename.replace(".pdf", "").replace("_", " ").title()
+                candidate_name = lines[0] if lines else clean_filename_name
+                
+                # Ensure profile has a real name
+                prof_name = profile.get("name")
+                if not prof_name or prof_name in ["Not Available", "null", "None", "", "Candidate"]:
+                    profile["name"] = candidate_name
+                
+                self.candidate_profiles[filename] = profile
 
                 # Store metadata
                 self.candidate_metadata[filename] = {
                     "filename": filename,
-                    "full_name": candidate_name,
-                    "first_name": candidate_name.split()[0].lower() if candidate_name.split() else candidate_name.lower(),
-                    "full_name_lower": candidate_name.lower()
+                    "full_name": profile.get("name", candidate_name),
+                    "first_name": profile.get("name", candidate_name).split()[0].lower() if profile.get("name", candidate_name).split() else candidate_name.lower(),
+                    "full_name_lower": profile.get("name", candidate_name).lower()
                 }
 
             except Exception as e:
@@ -145,6 +156,8 @@ class ResumeRAG:
             return False, f"Unsupported file type for {filename}. Only PDF is supported."
 
         try:
+            if hasattr(jd_file_or_text, "seek"):
+                jd_file_or_text.seek(0)
             reader = PdfReader(jd_file_or_text)
             if reader.is_encrypted:
                 return False, f"Job description PDF '{filename}' is encrypted."
@@ -174,10 +187,13 @@ class ResumeRAG:
 
     def ask_question(self, question):
         if not self.resume_embeddings:
-            return {
-                "answer": "⚠️ Please upload resumes first to generate embeddings before asking questions.",
-                "matches": []
-            }
+            if self.resumes:
+                self.generate_embeddings()
+            else:
+                return {
+                    "answer": "⚠️ Please upload resumes first to generate embeddings before asking questions.",
+                    "matches": []
+                }
         
         query_type = self.router.detect_query_type(question)
         

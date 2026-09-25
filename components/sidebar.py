@@ -211,3 +211,9 @@ def show_sidebar():
                     st.caption(f"📄 {file.name}")
             else:
                 st.caption("No resumes uploaded yet")
+
+            st.divider()
+            if st.button("🔄 Reset / Clear Session", use_container_width=True, help="Clear loaded resumes and session state"):
+                for key in list(st.session_state.keys()):
+                    del st.session_state[key]
+                st.rerun()

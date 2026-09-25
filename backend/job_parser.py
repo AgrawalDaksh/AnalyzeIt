@@ -54,22 +54,29 @@ class JobParser:
         return self.parse_job_profile(output)
 
     def parse_job_profile(self, text):
-        # Remove ```json and ```
-        text = re.sub(r"```json", "", text)
-        text = re.sub(r"```", "", text)
-        text = text.strip()
+        cleaned = re.sub(r"```json", "", text)
+        cleaned = re.sub(r"```", "", cleaned).strip()
 
         try:
-            return json.loads(text)
+            return json.loads(cleaned)
         except Exception:
-            return {
-                "job_title": None,
-                "company": None,
-                "required_skills": [],
-                "preferred_skills": [],
-                "minimum_experience": None,
-                "degree": None,
-                "minimum_cgpa": None,
-                "location": None,
-                "responsibilities": []
-            }
+            pass
+
+        json_match = re.search(r'(\{[\s\S]*\})', text)
+        if json_match:
+            try:
+                return json.loads(json_match.group(1))
+            except Exception:
+                pass
+
+        return {
+            "job_title": None,
+            "company": None,
+            "required_skills": [],
+            "preferred_skills": [],
+            "minimum_experience": None,
+            "degree": None,
+            "minimum_cgpa": None,
+            "location": None,
+            "responsibilities": []
+        }

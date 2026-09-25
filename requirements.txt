@@ -1,6 +1,8 @@
 streamlit
 ollama
 numpy
+pandas
 pypdf
 plotly
 openpyxl
+reportlab

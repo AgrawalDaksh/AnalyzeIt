@@ -60,13 +60,21 @@ class HiringDecisionEngine:
         return self._parse_json_safely(content)
 
     def _parse_json_safely(self, text):
-        text = re.sub(r"```json", "", text)
-        text = re.sub(r"```", "", text)
-        text = text.strip()
+        cleaned = re.sub(r"```json", "", text)
+        cleaned = re.sub(r"```", "", cleaned).strip()
         try:
-            return json.loads(text)
+            return json.loads(cleaned)
         except Exception:
-            return {
+            pass
+
+        json_match = re.search(r'(\{[\s\S]*\})', text)
+        if json_match:
+            try:
+                return json.loads(json_match.group(1))
+            except Exception:
+                pass
+
+        return {
                 "recommendation": "Borderline",
                 "confidence": "50",
                 "strengths": ["Data validation completed"],

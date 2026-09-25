@@ -11,7 +11,9 @@ def show_chat(rag):
     st.markdown('<div id="section-chat"></div>', unsafe_allow_html=True)
     st.markdown("## 💬 Conversation")
 
-    embeddings_generated = st.session_state.get("embeddings_generated", False)
+    has_resumes = bool(getattr(rag, "resumes", None) and len(rag.resumes) > 0)
+    has_embeddings = bool(getattr(rag, "resume_embeddings", None) and len(rag.resume_embeddings) > 0)
+    embeddings_generated = bool(st.session_state.get("embeddings_generated", False) or has_embeddings or has_resumes)
     chat_history = st.session_state.get("chat_history", [])
 
     chat_container = st.container(height=450)
@@ -65,11 +67,13 @@ def show_chat(rag):
                             help="Copy this response to clipboard",
                         ):
                             try:
-                                subprocess.run(
-                                    "clip",
-                                    input=message.encode("utf-8"),
-                                    check=True,
-                                )
+                                import platform
+                                if platform.system() == "Darwin":
+                                    subprocess.run("pbcopy", input=message.encode("utf-8"), check=True)
+                                elif platform.system() == "Windows":
+                                    subprocess.run("clip", input=message.encode("utf-8"), check=True)
+                                else:
+                                    subprocess.run(["xclip", "-selection", "clipboard"], input=message.encode("utf-8"), check=True)
                                 st.toast("Copied response to clipboard!")
                             except Exception:
                                 st.toast("Failed to copy response.")

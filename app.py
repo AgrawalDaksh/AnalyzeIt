@@ -26,7 +26,13 @@ if "rag" not in st.session_state:
     st.session_state.rag = ResumeRAG()
 
 if "embeddings_generated" not in st.session_state:
-    st.session_state.embeddings_generated = False
+    st.session_state.embeddings_generated = bool(
+        getattr(st.session_state.rag, "resume_embeddings", None)
+    )
+
+# Sync embeddings_generated if rag already has embeddings
+if getattr(st.session_state.rag, "resume_embeddings", None) and len(st.session_state.rag.resume_embeddings) > 0:
+    st.session_state.embeddings_generated = True
 
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
@@ -187,6 +193,18 @@ show_header()
 # MAIN LAYOUT (Full Width Dashboard)
 # ============================================
 
+# Ensure candidate rankings and profiles are synced
+if not st.session_state.ranked_candidates and st.session_state.job_profile and getattr(st.session_state.rag, "candidate_profiles", None):
+    st.session_state.ranked_candidates = st.session_state.rag.rank_candidates()
+
+# If resumes exist in uploaded_files but rag has no candidate profiles, load them
+if st.session_state.uploaded_files and not getattr(st.session_state.rag, "candidate_profiles", None):
+    st.session_state.rag.load_resumes(st.session_state.uploaded_files)
+    st.session_state.rag.generate_embeddings()
+    st.session_state.embeddings_generated = True
+    if st.session_state.job_profile:
+        st.session_state.ranked_candidates = st.session_state.rag.rank_candidates()
+
 # ── Analytics Dashboard ───────────────────────────────────────────
 show_analytics(st.session_state.ranked_candidates, st.session_state.rag)
 
@@ -228,12 +246,6 @@ with resume_col:
                 else:
                     st.session_state.embeddings_generated = False
 
-            if success_count > 0:
-                render_notification(
-                    f"Indexed {success_count} candidate resume(s) successfully!",
-                    type="success",
-                )
-
             for err_msg in errors:
                 if err_msg.startswith("⚠️"):
                     render_notification(err_msg.replace("⚠️ ", ""), type="warning")
@@ -248,6 +260,7 @@ with resume_col:
         else:
             st.session_state.embeddings_generated = False
             st.session_state.ranked_candidates = []
+        st.rerun()
 
 with jd_col:
     # JD Upload
@@ -263,7 +276,6 @@ with jd_col:
 
             if success:
                 st.session_state.job_profile = st.session_state.rag.job_profile
-                render_notification("Job Description parsed successfully!", type="success")
 
                 if st.session_state.uploaded_files and st.session_state.embeddings_generated:
                     with st.spinner("Running Match Scoring & Candidate Rankings Engine..."):
@@ -279,6 +291,7 @@ with jd_col:
             st.session_state.rag.job_description = ""
             st.session_state.rag.job_profile = {}
             st.session_state.ranked_candidates = []
+        st.rerun()
 
 # ── Candidate Rankings ────────────────────────────────────────
 show_candidate_rankings(
